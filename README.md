@@ -34,7 +34,9 @@ We design the model architecture using Keras, integrating preprocessing layers f
 
 During model training, we employ the Adam optimizer, sparse_categorical_crossentropy loss function, and accuracy as the evaluation metric to optimize performance. The training process includes validating the model after each epoch to monitor improvements and prevent overfitting. Finally, the model is evaluated on the test dataset, achieving an impressive accuracy of 93.62%, demonstrating its effectiveness in accurately classifying Leaf disease images.
 
+# Demo Video link
 
+https://drive.google.com/file/d/1OZ9wmV_Yyt6TXhG2So3-BIT-v9O-yS_Z/view?usp=sharing
 
 
 

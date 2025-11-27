@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Plant Disease Detection</title>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+
+  <style>
+    body {
+      background: linear-gradient(135deg, #d4fc79, #96e6a1);
+      min-height: 100vh;
+    }
+
+    .form-box {
+      max-width: 550px;
+      margin: 50px auto;
+      padding: 35px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 6px 25px rgba(0, 0, 0, 0.1);
+      animation: fadeIn 0.6s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    #filePreview {
+      display: none;
+      margin-top: 15px;
+      max-width: 100%;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0,0,0,.15);
+    }
+
+    #spinner {
+      display: none;
+      margin-top: 25px;
+    }
+
+    .result-card {
+      background: #ffffff;
+      padding: 25px;
+      border-radius: 15px;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.09);
+      animation: fadeIn 0.6s ease;
+    }
+
+    .navbar-brand {
+      font-size: 23px;
+      font-weight: bold;
+    }
+
+    footer {
+      margin-top: 40px;
+      text-align: center;
+      font-size: 14px;
+      color: #0e4722;
+    }
+  </style>
+</head>
+<body>
+
+<nav class="navbar navbar-dark bg-dark">
+  <div class="container-fluid">
+    <span class="navbar-brand">🌿 Plant Disease Detection</span>
+  </div>
+</nav>
+
+<div class="container">
+  <div class="text-center mt-4">
+    <h1 class="text-success fw-bold">Detect Leaf Diseases Instantly</h1>
+    <p class="text-muted">Upload a leaf photo & get diagnosis + cure suggestions</p>
+  </div>
+
+  <div class="form-box">
+    <form action="/upload/" method="POST" enctype="multipart/form-data">
+      <label for="formFile" class="form-label fw-semibold">🌱 Select Leaf Image</label>
+      <input class="form-control" type="file" id="formFile" name="img" accept="image/*" required>
+
+      <!-- Live Preview -->
+      <img id="filePreview" alt="Preview">
+
+      <div class="text-center mt-3">
+        <button type="submit" class="btn btn-success px-5 py-2">🔍 Upload & Predict</button>
+      </div>
+    </form>
+
+    <!-- Spinner -->
+    <div class="text-center" id="spinner">
+      <div class="spinner-border text-success mt-4"></div>
+      <p class="text-muted mt-2">Analyzing image... Please wait</p>
+    </div>
+
+    {% if error %}
+      <div class="alert alert-danger text-center mt-3">{{ error }}</div>
+    {% endif %}
+
+    {% if result %}
+      <div class="result-card mt-4">
+        <div class="text-center">
+          <img src="{{ imagepath }}" alt="Uploaded Image" class="img-fluid rounded mb-3" style="max-height:280px;">
+          <h3 class="text-success fw-bold">{{ prediction['name'] }}</h3>
+          <p><strong>Cause:</strong> {{ prediction['cause'] }}</p>
+          <p><strong>Cure:</strong> {{ prediction['cure'] }}</p>
+        </div>
+      </div>
+    {% endif %}
+  </div>
+</div>
+
+<footer>
+  © {{ 2025 }} Plant Disease Detector | Powered by AI 🌿
+</footer>
+
+<script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+<!-- Live Image Preview Script -->
+<script>
+  document.getElementById("formFile").addEventListener("change", function(event) {
+    const preview = document.getElementById("filePreview");
+    preview.src = URL.createObjectURL(event.target.files[0]);
+    preview.style.display = "block";
+  });
+</script>
+
+</body>
+</html>
+
